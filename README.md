@@ -1,2 +1,2 @@
 # Code-Snippets
-Code snippets for Data Science and Analytics
+Code snippets and custom functions for Data Science and Analytics

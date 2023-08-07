@@ -1,4 +1,4 @@
-# Remember to inherit from the correct class
+#Remember to inherit from the correct class
 class myCallback(tf.keras.callbacks.Callback):
         # Define the correct function signature for on_epoch_end
         def on_epoch_end(self, epoch, logs={}):

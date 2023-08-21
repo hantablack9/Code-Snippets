@@ -1,0 +1,18 @@
+%python
+
+bar_width = 0.35
+bar_offset = bar_width / 2
+
+fig, ax = plt.subplots(figsize=(20,8)) 
+
+plt.bar(MultvariateDF['week_num'] - bar_offset, MultvariateDF['temperature_inside'], width=bar_width, align='center', label='temperature Inside')
+plt.bar(MultvariateDF['week_num'] + bar_offset, MultvariateDF['temperature_outside'], width=bar_width, align='center', label='temperature Outside')
+plt.plot(MultvariateDF['week_num'], MultvariateDF['windspeed'], label='Wind Speed', c = 'black', linestyle = '--')
+plt.plot(MultvariateDF['week_num'], MultvariateDF['inv_log_appliances'], label='Inv Log Appliances', linestyle = '--')
+
+plt.xlabel('Week Number')
+plt.ylabel('')
+plt.title('Weekly Energy Utilization with Temperature Inside and Outside trends')
+plt.xticks(MultvariateDF['week_num'])
+
+plt.legend()

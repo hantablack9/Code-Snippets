@@ -1,0 +1,85 @@
+# grader-required-cell
+
+# Define root directory
+root_dir = '/tmp/cats-v-dogs'
+
+# Empty directory to prevent FileExistsError is the function is run several times
+if os.path.exists(root_dir):
+  shutil.rmtree(root_dir)
+
+# GRADED FUNCTION: create_train_val_dirs
+def create_train_val_dirs(root_path):
+  """
+  Creates directories for the train and test sets
+  
+  Args:
+    root_path (string) - the base directory path to create subdirectories from
+  
+  Returns:
+    None
+  """
+  ### START CODE HERE
+
+  # HINT:
+  # Use os.makedirs to create your directories with intermediate subdirectories
+  # Don't hardcode the paths. Use os.path.join to append the new directories to the root_path parameter
+
+  train_dir = os.path.join(root_path, 'training')
+  val_dir = os.path.join(root_path, 'validation')
+
+  train_cats_dir = os.makedirs(os.path.join(train_dir, 'cats'))
+  train_dogs_dir = os.makedirs(os.path.join(train_dir, 'dogs'))
+
+  val_cats_dir = os.makedirs(os.path.join(val_dir, 'cats'))
+  val_dogs_dir = os.makedirs(os.path.join(val_dir, 'dogs'))
+
+  ### END CODE HERE
+
+  
+try:
+  create_train_val_dirs(root_path=root_dir)
+except FileExistsError:
+  print("You should not be seeing this since the upper directory is removed beforehand")
+
+#======================================================================================================================================================
+#======================================================================================================================================================
+
+
+# GRADED FUNCTION: split_data
+def split_data(SOURCE_DIR, TRAINING_DIR, VALIDATION_DIR, SPLIT_SIZE):
+  """
+  Splits the data into train and test sets
+  
+  Args:
+    SOURCE_DIR (string): directory path containing the images
+    TRAINING_DIR (string): directory path to be used for training
+    VALIDATION_DIR (string): directory path to be used for validation
+    SPLIT_SIZE (float): proportion of the dataset to be used for training
+    
+  Returns:
+    None
+  """
+
+  ### START CODE HERE
+  
+  shuffled_source_dir = random.sample(os.listdir(SOURCE_DIR), len(os.listdir(SOURCE_DIR)))
+  train_data_len = int(len(shuffled_source_dir) * SPLIT_SIZE)
+
+  i = 0
+  target = TRAINING_DIR
+  for item in shuffled_source_dir:
+    source_item = os.path.join(SOURCE_DIR, item)
+    if os.path.getsize(source_item) == 0:
+      print(f'{item} is zero length, so ignoring.')
+      
+    ## Copy files to TRAIN_DIR when i <= train_data_len
+    else:
+      copyfile(source_item, os.path.join(target, item)) 
+      i += 1
+
+    ## Switch copying to VALIDATION_DIR after i has reached training data length
+    if i == train_data_len-1:
+      target = VALIDATION_DIR 
+
+
+  ### END CODE HERE

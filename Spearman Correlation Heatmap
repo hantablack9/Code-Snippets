@@ -1,0 +1,34 @@
+import pandas as pd
+import seaborn as sns
+import matplotlib.pyplot as plt
+
+sns.set(color_codes=True)
+sns.set_style("darkgrid")
+plt.style.use("ggplot")
+
+plt.rcParams['figure.figsize']=15,8
+pd.pandas.set_option('display.max_columns', None)
+pd.pandas.set_option('display.float_format', lambda x: '%.3f' % x)
+
+import warnings
+warnings.filterwarnings('ignore')
+
+###
+df = pd.read_csv('filepath/file.csv')
+def corr_map(df = df, title='Correlaton Heatmap', savefig_name='corr_map.jpg', method='spearman', 
+             numeric_only = True, tick_size = 10, annot_size=14, 
+             annot_kws=8, cbar=False):
+    
+    mask = np.triu(np.ones_like(df.corr(numeric_only=numeric_only), dtype=bool))
+    
+    heatmap = sns.heatmap(df.corr(method=method, numeric_only = numeric_only), 
+                          fmt = '.2f', cbar=cbar, annot = True, 
+                          annot_kws = {'size': annot_kws}, mask=mask, cmap='BrBG')
+    
+    plt.xticks(rotation=80, fontsize= tick_size)
+    plt.yticks( fontsize= tick_size)
+
+    heatmap.set_title(title, fontdict={'fontsize':annot_size}, pad=12)
+    plt.tight_layout()
+    plt.savefig(savefig_name)
+    plt.show();
